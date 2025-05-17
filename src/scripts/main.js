@@ -3,6 +3,14 @@
 const largeImg = document.querySelector('.gallery__large-img');
 const thumbs = document.querySelector('.gallery__list');
 
+// Призначаємо обробник лише один раз
+largeImg.style.width = '100%'; // або в пікселях, якщо потрібно
+
+const aspectRatio = largeImg.naturalWidth / largeImg.naturalHeight;
+const computedWidth = largeImg.getBoundingClientRect().width;
+
+largeImg.style.height = `${computedWidth / aspectRatio}px`;
+
 thumbs.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -12,12 +20,7 @@ thumbs.addEventListener('click', (e) => {
     const link = target.closest('a');
     const newSrc = link.getAttribute('href');
 
+    // Тільки змінюємо src — onload вже призначено
     largeImg.src = newSrc;
-
-    largeImg.onload = () => {
-      const aspectRatio = largeImg.naturalWidth / largeImg.naturalHeight;
-
-      largeImg.style.height = `${largeImg.offsetWidth / aspectRatio}px`;
-    };
   }
 });
